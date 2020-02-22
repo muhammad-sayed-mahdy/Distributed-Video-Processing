@@ -17,7 +17,7 @@ but it can be done on several machines by changing the ip addresses of machines
 ## Machine 1
 It takes as input: name of the input video file, number of consumers that do Otsu
 and ip address of this machine.  
-It contains $1$ producer, $N$ consumers and $\lceil N/2 \rceil$ collectors.
+It contains 1 producer, N consumers and N/2 collectors.
 
 1. ### Producer
     Takes a video as input and extracts frames from it, then sends the frames to the consumers.
@@ -30,7 +30,7 @@ It contains $1$ producer, $N$ consumers and $\lceil N/2 \rceil$ collectors.
     Each collector receives thresholded frames from 2 consumers and send them to 2 other consumers.
 
 ## Machine 2
-It contains $N$ consumers and $1$ final collector.
+It contains N consumers and 1 final collector.
 
 1. ### Contours Consumer
    Receives frames from the intermediate collectors, performs contours finding  

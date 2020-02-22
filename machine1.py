@@ -26,20 +26,20 @@ otsu_send_ports = range(start_port, start_port + collectorsN)
 start_port += collectorsN
 
 for i in range(N):
-    # consumer_num, ip_address, receive_port_num, send_port_num
+    # consumer_num, receive_port_num, send_port_num
     os.system(
-        "python Otsu.py {} {} {} {}".format(
-            i, ip_address, producer_port_num, otsu_send_ports[i // 2]
+        "python Otsu.py {} {} {}".format(
+            i, producer_port_num, otsu_send_ports[i // 2]
         )
     )
 
 collectors1_send_ports = range(start_port, start_port + collectorsN)
 start_port += collectorsN
 for i in range(collectorsN):
-    # collector_num, receive_port_num, send_port_num
+    # collector_num, ip_address, receive_port_num, send_port_num
     os.system(
-        "python Collector1.py {} {} {}".format(
-            i, otsu_send_ports[i], collectors1_send_ports[i]
+        "python Collector1.py {} {} {} {}".format(
+            i, ip_address, otsu_send_ports[i], collectors1_send_ports[i]
         )
     )
 
