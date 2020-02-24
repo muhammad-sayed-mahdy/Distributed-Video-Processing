@@ -2,19 +2,25 @@ import time
 import zmq
 import pprint
 import sys
+import cv2
+import json
+import skimage.io as io
+
 
 def collector1():
 
-    portpull = sys.argv[1]
-    portpush = sys.argv[2]
+    collector_id = int(sys.argv[1])
+    ip_address = sys.argv[2]
+    portpull = sys.argv[3]
+    portpush = sys.argv[4]
     context = zmq.Context()
 
     collector1_receiver = context.socket(zmq.PULL)
     collector1_receiver.bind("tcp://127.0.0.1:%s" % portpull)
-
+    
     collector1_sender = context.socket(zmq.PUSH)
-    collector1_sender.bind("tcp://127.0.0.1:%s" % portpush)
-
+    collector1_sender.bind("%s%s" % (ip_address, portpush)) 
+   
     numberofconsumers = 0
     while True:
         result = collector1_receiver.recv_json()
