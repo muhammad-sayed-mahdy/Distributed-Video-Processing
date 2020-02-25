@@ -29,9 +29,11 @@ start_port += 1
 for i in range(N):
     # consumer_num, ip_address, receive_port_num, send_port_num
     os.system(
-        "python ContoursConsumer.py {} {} {} {}".format(
+        "python ContoursConsumer.py {} {} {} {} &".format(
             i, ip_address, collectors1_send_ports[i // 2], final_collector_port
         )
     )
+    print ("turning on ContoursConsumer #{} on".format(i));
 
-os.system("python FinalCollector.py {} {} {}".format(output_file, N, final_collector_port))
+os.system("python FinalCollector.py {} {} {} &".format(output_file, N, final_collector_port))
+print ("turning on final collector");
