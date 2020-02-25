@@ -4,8 +4,7 @@ import sys
 import random
 import numpy as np
 import json
-from skimage.filters import threshold_otsu
-from skimage.color import rgb2gray
+import cv2
 
 def otsu():
     
@@ -25,9 +24,9 @@ def otsu():
         work = json.loads(work)
         if(work['frame_number'] == -1):
             break
-        image = np.copy(work['img'])
-        thresh = threshold_otsu(rgb2gray(image))
-        work['img'] = (image > thresh).tolist()
+        img = np.array(work['img'])
+        thres,image = cv2.threshold(img,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+        work['img'] = image.tolist()
         otsu_sender.send_json(work)
     otsu_sender.send_json(work)
 

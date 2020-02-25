@@ -4,7 +4,6 @@ import pprint
 import sys
 import cv2
 import json
-import skimage.io as io
 
 
 def collector1():

@@ -17,6 +17,7 @@ def producer():
     cap = cv2.VideoCapture(videopath)
     while(cap.isOpened() and i < 10):
         ret, frame = cap.read()
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         work_message = json.dumps({'frame_number': i, 'img': frame.tolist()})
         zmq_socket.send_json(work_message)
         i += 1
