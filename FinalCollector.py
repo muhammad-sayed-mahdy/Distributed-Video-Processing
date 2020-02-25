@@ -3,6 +3,7 @@ import zmq
 import pprint
 import numpy as np
 import sys
+import json
 
 def final_collector():
     if (len(sys.argv) < 2):
@@ -35,9 +36,8 @@ def final_collector():
             collector_data.append(result)
 
     collector_data.sort(key=lambda frame: frame['frame_number'])
-    file = open(output_file, "w")
-    file.write('\n'.join(collector_data))
-    file.close()
+    with open(output_file, "w") as file:
+        json.dump(collector_data, file, indent=4)
     print ("Final Collector is done")
 
 final_collector()

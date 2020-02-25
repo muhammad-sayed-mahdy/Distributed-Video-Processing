@@ -12,6 +12,8 @@ def collector1():
     ip_address = sys.argv[2]
     portpull = sys.argv[3]
     portpush = sys.argv[4]
+
+    print ("Collector #{} is on".format(collector_id))
     context = zmq.Context()
 
     collector1_receiver = context.socket(zmq.PULL)
@@ -30,5 +32,6 @@ def collector1():
         collector1_sender.send_json(result)
     collector1_sender.send_json(result)
     collector1_sender.send_json(result)
+    print ("Collector #{} is done".format(collector_id))
 
 collector1()

@@ -3,7 +3,6 @@ import zmq
 import sys
 import random
 import numpy as np
-import json
 import cv2
 
 def otsu():
@@ -22,10 +21,9 @@ def otsu():
     
     while True:
         work = otsu_receiver.recv_json()
-        work = json.loads(work)
         if(work['frame_number'] == -1):
             break
-        img = np.array(work['img'])
+        img = np.array(work['img'], dtype=np.uint8)
         thres,image = cv2.threshold(img,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
         work['img'] = image.tolist()
         otsu_sender.send_json(work)

@@ -3,7 +3,6 @@ import sys
 import zmq
 import numpy as np
 import cv2
-import json
 
 def producer():
     context = zmq.Context()
@@ -16,15 +15,18 @@ def producer():
     # Start your result manager and workers before you start your producers
     i = 0
     cap = cv2.VideoCapture(videopath)
-    while(cap.isOpened() and i < 10):
+    while(cap.isOpened()):
         ret, frame = cap.read()
+        if (not ret):
+            break
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        work_message = json.dumps({'frame_number': i, 'img': frame.tolist()})
+        work_message = {'frame_number': i, 'img': frame.tolist()}
         zmq_socket.send_json(work_message)
         i += 1
-    work_message = json.dumps({'frame_number': -1, 'img': frame.tolist()})
+    work_message = {'frame_number': -1}
     for i in range(N):
         zmq_socket.send_json(work_message)
+    cap.release()
     print("Producer is done")
 
 producer()

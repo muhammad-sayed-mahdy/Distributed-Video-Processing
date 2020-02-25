@@ -34,18 +34,25 @@ def contoursConsumer():
         work = consumer_receiver.recv_json()
         if (work['frame_number'] == -1):
             break
-        img = np.array(work['img'])
+        img = np.array(work['img'], dtype=np.uint8)
 
-        cv2.imshow("received_frames", img)
-        contours, hierarchy = cv2.findContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-
-        result = {'frame_number': work['frame_number'], 'contours' : contours, 'hierarchy' : hierarchy}
+        #cv2.imshow("received_frames", img)
+        contours, _ = cv2.findContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        boxes = []
+        for cnt in contours:
+            area = cv2.contourArea(cnt)
+            if (area > 100):    #filter out small contours
+                rect = cv2.minAreaRect(cnt)
+                boxes.append(cv2.boxPoints(rect).tolist())
+        result = {'frame_number': work['frame_number'], 'bounding_boxes' : boxes}
         consumer_sender.send_json(result)
+        #cv2.waitKey(1)
 
     result = {'frame_number': -1}
     consumer_sender.send_json(result)
 
-    cv2.destroyAllWindows()
+    #cv2.destroyAllWindows()
 
     print ("ContoursConsumer #{} is done.".format(consumer_num))
+    
 contoursConsumer()
