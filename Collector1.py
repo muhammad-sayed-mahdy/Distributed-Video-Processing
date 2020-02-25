@@ -19,7 +19,7 @@ def collector1():
     collector1_receiver.bind("tcp://127.0.0.1:%s" % portpull)
     
     collector1_sender = context.socket(zmq.PUSH)
-    collector1_sender.bind("%s%s" % (ip_address, portpush)) 
+    collector1_sender.bind("tcp://%s:%s" % (ip_address, portpush)) 
    
     numberofconsumers = 0
     while True:

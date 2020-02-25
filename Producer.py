@@ -15,7 +15,7 @@ def producer():
     # Start your result manager and workers before you start your producers
     i = 0
     cap = cv2.VideoCapture(videopath)
-    while(cap.isOpened()):
+    while(cap.isOpened() and i < 10):
         ret, frame = cap.read()
         work_message = json.dumps({'frame_number': i, 'img': frame.tolist()})
         zmq_socket.send_json(work_message)
