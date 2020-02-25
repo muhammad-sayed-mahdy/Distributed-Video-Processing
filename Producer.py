@@ -10,6 +10,7 @@ def producer():
     port = sys.argv[3]
     videopath = sys.argv[1]
     N = int(sys.argv[2])
+    print("Producer is On")
     zmq_socket = context.socket(zmq.PUSH)
     zmq_socket.bind("tcp://127.0.0.1:%s" % port)
     # Start your result manager and workers before you start your producers
@@ -23,5 +24,6 @@ def producer():
     work_message = json.dumps({'frame_number': -1, 'img': frame.tolist()})
     for i in range(N):
         zmq_socket.send_json(work_message)
+    print("Producer is done")
 
 producer()

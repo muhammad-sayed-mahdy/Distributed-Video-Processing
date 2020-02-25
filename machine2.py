@@ -33,7 +33,7 @@ for i in range(N):
             i, ip_address, collectors1_send_ports[i // 2], final_collector_port
         )
     )
-    print ("turning on ContoursConsumer #{} on".format(i));
+    print ("turning on ContoursConsumer #{}".format(i));
 
 os.system("python FinalCollector.py {} {} {} &".format(output_file, N, final_collector_port))
 print ("turning on final collector");

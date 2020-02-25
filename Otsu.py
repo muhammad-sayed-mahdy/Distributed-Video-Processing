@@ -13,6 +13,7 @@ def otsu():
     Ostu_id = int(sys.argv[1])
     portpull = sys.argv[2]
     portpush = sys.argv[3]
+    print ("Otsu #{} is on".format(Ostu_id))
     # recieve work
     otsu_receiver = context.socket(zmq.PULL)
     otsu_receiver.connect("tcp://127.0.0.1:%s" % portpull)
@@ -30,5 +31,6 @@ def otsu():
         work['img'] = (image > thresh).tolist()
         otsu_sender.send_json(work)
     otsu_sender.send_json(work)
+    print ("Otsu #{} is done".format(Ostu_id))
 
 otsu()

@@ -20,6 +20,8 @@ def final_collector():
         return
     port_num = sys.argv[3]
 
+    print ("Final Collector is on")
+
     context = zmq.Context()
     results_receiver = context.socket(zmq.PULL)
     results_receiver.bind("tcp://127.0.0.1:" + port_num)

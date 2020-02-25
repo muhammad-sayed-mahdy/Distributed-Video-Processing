@@ -20,6 +20,8 @@ def contoursConsumer():
         print ("missing argument: sender_port_number")
     sender_port_num = sys.argv[4]
 
+    print ("ContoursConsumer #{} is on.".format(consumer_num))
+
     context = zmq.Context()
     # recieve work
     consumer_receiver = context.socket(zmq.PULL)
@@ -32,9 +34,9 @@ def contoursConsumer():
         work = consumer_receiver.recv_json()
         if (work['frame_number'] == -1):
             break
-        img = work['img']
+        img = np.array(work['img'])
 
-        #cv2.imshow("received_frames", img)
+        cv2.imshow("received_frames", img)
         contours, hierarchy = cv2.findContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
         result = {'frame_number': work['frame_number'], 'contours' : contours, 'hierarchy' : hierarchy}
@@ -43,7 +45,7 @@ def contoursConsumer():
     result = {'frame_number': -1}
     consumer_sender.send_json(result)
 
-    #cv2.destroyAllWindows()
+    cv2.destroyAllWindows()
 
-    print ("consumer #{} is done.".format(consumer_num))
+    print ("ContoursConsumer #{} is done.".format(consumer_num))
 contoursConsumer()
