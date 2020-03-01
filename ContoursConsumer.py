@@ -34,6 +34,7 @@ def contoursConsumer():
         work = consumer_receiver.recv_json()
         if (work['frame_number'] == -1):
             break
+        print ("Consumer #{} received frame #{}".format(consumer_num, work['frame_number']))
         img = np.array(work['img'], dtype=np.uint8)
 
         #cv2.imshow("received_frames", img)
