@@ -40,8 +40,8 @@ start_port += collectorsN
 for i in range(collectorsN):
     # collector_num, ip_address, receive_port_num, send_port_num
     os.system(
-        "python Collector1.py {} {} {} {} &".format(
-            i, ip_address, otsu_send_ports[i], collectors1_send_ports[i]
+        "python Collector1.py {} {} {} {} {} &".format(
+            i, ip_address, otsu_send_ports[i], collectors1_send_ports[i], N
         )
     )
     print("turninig on Collector #{}".format(i));

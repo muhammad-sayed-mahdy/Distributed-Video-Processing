@@ -12,6 +12,7 @@ def collector1():
     ip_address = sys.argv[2]
     portpull = sys.argv[3]
     portpush = sys.argv[4]
+    N = int(sys.argv[5])
 
     print ("Collector #{} is on".format(collector_id))
     context = zmq.Context()
@@ -27,7 +28,7 @@ def collector1():
         result = collector1_receiver.recv_json()
         if(result['frame_number'] == -1):
             numberofconsumers += 1
-        if(numberofconsumers == 2):
+        if(numberofconsumers == 2 or (numberofconsumers == 1 and N&1 and collector_id == N//2)):
             break
         collector1_sender.send_json(result)
     collector1_sender.send_json(result)
